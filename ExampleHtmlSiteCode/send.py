@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+#Paul Turner
+# send.py file to push wav to API to return JSON
 
 import requests
 
@@ -15,7 +17,8 @@ payload = { 'appkey':appkey,
             'conkey': conkey,
             'consecret' : consecret,
             'locale' : locale,
-            'ttsSpeakerType': ttsSpeakerType}
+            'ttsSpeakerType': ttsSpeakerType
+	    'ALARM_1.wav': wav}
 
 r = requests.post(request_url, data=payload)
 
