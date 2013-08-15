@@ -10,7 +10,7 @@ conkey = '09326eeeee2cad2ae9f4c0fd5d4c7b71db2b0e48'
 consecret = '7092379b31cd621c2c1b574e47ec956733faaaaa'
 locale = 'en-US'
 ttsSpeakerType = 'usenglishfemale'
-wav = 'ALARM_1.wav'
+wav = '../common/ALARM_1.wav'
 
 url = 'http://sample.whataremindsfor.com:26900/apiv1/recognize/'
 files = {'wav': ('wav', open(wav, 'rb'))}
