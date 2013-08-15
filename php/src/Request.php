@@ -2,7 +2,8 @@
 
 namespace VognitionLib;
 
-class VogClient extends VogBase
+
+class Request
 {
 
 }
