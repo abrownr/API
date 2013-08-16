@@ -96,11 +96,19 @@ class Request
     }
 
     /**
-     * @param mixed $method
+     * @param $method
+     * @throws \InvalidArgumentException
      */
     public function setMethod($method)
     {
-        $this->method = $method;
+        if(!is_null($method) && $method != 'GET' && $method != 'POST')
+        {
+            throw new \InvalidArgumentException('Valid parameters for \'method\' are \'GET\' or \'POST\'');
+        }
+        else
+        {
+            $this->method = $method;
+        }
     }
 
     /**
@@ -144,11 +152,28 @@ class Request
     }
 
     /**
-     * @param mixed $port
+     * @param $port
+     * @throws \InvalidArgumentException
      */
     public function setPort($port)
     {
-        $this->port = $port;
+        if(is_numeric($port) || is_null($port))
+        {
+            if(($port < 1025 || $port > 65535) && !is_null($port))
+            {
+                throw new \InvalidArgumentException(
+                    'Port Number \'' . $port . '\' is out of range. Valid range is 1025 - 65535'
+                );
+            }
+            else
+            {
+                $this->port = $port;
+            }
+        }
+        else
+        {
+            throw new \InvalidArgumentException('Port Number must be numeric');
+        }
     }
 
     /**

@@ -87,4 +87,6 @@ class VogBaseTest extends BaseTest
         $this->vogBase->setVogConsecret('hjfdew8uyf877e98r78972tyr9ojwi');
         $this->assertEquals('hjfdew8uyf877e98r78972tyr9ojwi', $this->vogBase->getVogConsecret());
     }
+
+    //TODO - Maybe put some validation on Hostname and portnumber??
 }
