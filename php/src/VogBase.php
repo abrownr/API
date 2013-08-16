@@ -35,9 +35,33 @@ class VogBase {
      */
     protected $vogConsecret;
 
-    function __construct()
+    /**
+     * @param null $hostname
+     * @param null $portnumber
+     * @param null $appkey
+     * @param null $appsecret
+     * @param null $conkey
+     * @param null $consecret
+     *
+     * Optionally allow the object to be initalized on construction, otherwise default the variables
+     */
+    function __construct(
+        $hostname = null,
+        $portnumber = null,
+        $appkey = null,
+        $appsecret = null,
+        $conkey = null,
+        $consecret = null
+    )
     {
-        $this->setVogPortNumber(26900);
+        $this->vogDoConfigure(
+            $hostname,
+            $portnumber,
+            $appkey,
+            $appsecret,
+            $conkey,
+            $conkey
+        );
     }
 
 
@@ -168,6 +192,4 @@ class VogBase {
     {
         return $this->vogPortNumber;
     }
-
-
 }
