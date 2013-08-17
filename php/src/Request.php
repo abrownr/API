@@ -77,14 +77,27 @@ class Request
         $this->setParams($params);
     }
 
-    //ADD VALIDATION CODE FOR MEMBER VARIABLES HERE
-
     /**
-     * @param mixed $host
+     * @param $host
+     * @throws \InvalidArgumentException
      */
     public function setHost($host)
     {
-        $this->host = $host;
+        $hostPiece = explode('.', $host);
+        $hostProtocol = substr($hostPiece[0], 0, 7);
+
+        if($hostProtocol != 'http://' && !is_null($host))
+        {
+            throw new \InvalidArgumentException('Protocol in host is invalid. Host must start with http://');
+        }
+        elseif((strlen($hostPiece[count($hostPiece) - 1]) < 2) && !is_null($host))
+        {
+            throw new \InvalidArgumentException('TLD in host is too short. TLD must be at least 2 characters long');
+        }
+        else
+        {
+            $this->host = $host;
+        }
     }
 
     /**
@@ -120,7 +133,7 @@ class Request
     }
 
     /**
-     * @param array params
+     * @param array $params
      */
     public function setParams(array $params)
     {
@@ -128,7 +141,7 @@ class Request
     }
 
     /**
-     * @return array
+     * @return array|Request
      */
     public function getParams()
     {
@@ -136,11 +149,19 @@ class Request
     }
 
     /**
-     * @param mixed $path
+     * @param $path
+     * @throws \InvalidArgumentException
      */
     public function setPath($path)
     {
-        $this->path = $path;
+        if(substr($path,0,1) != '/' && !is_null($path))
+        {
+            throw new \InvalidArgumentException('Path must start with a slash');
+        }
+        else
+        {
+            $this->path = $path;
+        }
     }
 
     /**
@@ -183,6 +204,4 @@ class Request
     {
         return $this->port;
     }
-
-
 }

@@ -47,14 +47,14 @@ class RequestTest extends BaseTest
         $params = array('key1' => 'val1', 'key2' => 'val2');
 
         $this->request->setupRequest(
-            'Test Host',
+            'http://test.host.com',
             '8080',
             'GET',
             '/api',
             $params
         );
 
-        $this->assertEquals('Test Host', $this->request->getHost());
+        $this->assertEquals('http://test.host.com', $this->request->getHost());
         $this->assertEquals(8080, $this->request->getPort());
         $this->assertEquals('GET', $this->request->getMethod());
         $this->assertEquals('/api', $this->request->getPath());
@@ -70,8 +70,8 @@ class RequestTest extends BaseTest
 
         $params = array('key1' => 'val1', 'key2' => 'val2');
 
-        $this->request->setHost('Another Host');
-        $this->assertEquals('Another Host', $this->request->getHost());
+        $this->request->setHost('http://another.host.com');
+        $this->assertEquals('http://another.host.com', $this->request->getHost());
 
         $this->request->setPort(1222);
         $this->assertEquals(1222, $this->request->getPort());
@@ -169,18 +169,57 @@ class RequestTest extends BaseTest
         $this->assertNull($this->request->getPort());
     }
 
-    public function testParameters()
+    /**
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage TLD in host is too short. TLD must be at least 2 characters long
+     */
+    public function testShortHostTLD()
     {
-        //TEST FOR PARAMETERE TO BE 'PARAMETERIZED' PROPERLY
+        $this->initalize();
+
+        $this->request->setHost('http://test.testhost.c');
     }
 
-    public function testHost()
+    /**
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Protocol in host is invalid. Host must start with http://
+     */
+    public function testInvalidHostProtocol()
     {
-        //CHECK THAT THE HOST IS VALID
+        $this->initalize();
+
+        $this->request->setHost('htp://test.testhost.com');
     }
 
-    public function testPath()
+    public function testValidHost()
     {
-        //CHECK THAT THE PATH IS A VALID PATH
+        $this->initalize();
+
+        $this->request->setHost('http://test.testhost.com');
+        $this->assertEquals('http://test.testhost.com', $this->request->getHost());
+
+        $this->request->setHost('http://testhost.com');
+        $this->assertEquals('http://testhost.com', $this->request->getHost());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExcetpionMessage Path must start with a slash
+     */
+    public function testInvalidPath()
+    {
+        $this->initalize();
+
+        $this->request->setPath('Broken Path');
+    }
+
+    public function testValidPath()
+    {
+        $this->initalize();
+
+        $this->request->setPath('/path/to/something');
+        $this->assertEquals('/path/to/something', $this->request->getPath());
     }
 }
