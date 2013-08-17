@@ -2,8 +2,9 @@
 
 namespace VognitionLib;
 
+require_once('RequestInterface.php');
 
-class Request
+class Request implements RequestInterface
 {
 
     /**
@@ -77,9 +78,60 @@ class Request
         $this->setParams($params);
     }
 
+    public function makeRequest()
+    {
+        $this->validateRequest();
+    }
+
+    public function makePostRequest()
+    {
+        $this->validateRequest(true);
+    }
+
+    public function makeGetRequest()
+    {
+        $this->validateRequest(true);
+    }
+
+    public function getRawResponse()
+    {
+
+    }
+
+    public function getDecodedJSONResponse()
+    {
+
+    }
+
+    /**
+     * A simple method to validate that the hostname and method are defined.
+     * Other elements (path, params, port) are all optional, and have set defaults,
+     * so there is not need to validate them.
+     *
+     * @param bool $isMethodDefined
+     * @return bool
+     * @throws \DomainException
+     */
+    private function validateRequest($isMethodDefined = false)
+    {
+        if($isMethodDefined != true && $this->getMethod() == null)
+        {
+            throw new \DomainException('No Method is defined for request');
+        }
+        else
+        {
+            if($this->getHost() == null)
+            {
+                throw new \DomainException('No host defined for request');
+            }
+        }
+        return true;
+    }
+
     /**
      * @param $host
      * @throws \InvalidArgumentException
+     * @throws \LengthException
      */
     public function setHost($host)
     {
@@ -92,7 +144,7 @@ class Request
         }
         elseif((strlen($hostPiece[count($hostPiece) - 1]) < 2) && !is_null($host))
         {
-            throw new \InvalidArgumentException('TLD in host is too short. TLD must be at least 2 characters long');
+            throw new \LengthException('TLD in host is too short. TLD must be at least 2 characters long');
         }
         else
         {
@@ -174,6 +226,7 @@ class Request
 
     /**
      * @param $port
+     * @throws \RangeException
      * @throws \InvalidArgumentException
      */
     public function setPort($port)
@@ -182,7 +235,7 @@ class Request
         {
             if(($port < 1025 || $port > 65535) && !is_null($port))
             {
-                throw new \InvalidArgumentException(
+                throw new \RangeException(
                     'Port Number \'' . $port . '\' is out of range. Valid range is 1025 - 65535'
                 );
             }

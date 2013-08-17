@@ -2,7 +2,7 @@
 
 namespace VognitionLib;
 
-require_once('src/Request.php');
+require_once('src/Generic/Request.php');
 
 use VognitionLib\BaseTest;
 use VognitionLib\Request;
@@ -132,7 +132,7 @@ class RequestTest extends BaseTest
     /**
      * Check that an exception is thrown if we pass in a parameter that is out of range in the positive end
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException RangeException
      * @expectedExceptionMessage Port Number '65536' is out of range. Valid range is 1025 - 65535
      */
     public function testLargeNumberPort()
@@ -145,7 +145,7 @@ class RequestTest extends BaseTest
     /**
      * Check that an exception is thrown if we pass in a parameter that is out of range in the negative end.
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException RangeException
      * @expectedExceptionMessage Port Number '1024' is out of range. Valid range is 1025 - 65535
      */
     public function testNegativePort()
@@ -171,7 +171,7 @@ class RequestTest extends BaseTest
 
     /**
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException LengthException
      * @expectedExceptionMessage TLD in host is too short. TLD must be at least 2 characters long
      */
     public function testShortHostTLD()
