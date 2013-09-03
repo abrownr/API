@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    vognition (0.1.0)
+      faraday
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
+    multipart-post (1.2.0)
+    vcr (2.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  vcr
+  vognition!
