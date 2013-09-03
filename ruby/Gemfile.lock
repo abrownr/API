@@ -10,9 +10,11 @@ GEM
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
     multipart-post (1.2.0)
+    vcr (2.5.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  vcr
   vognition!

@@ -14,5 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "faraday"
 
-  s.description = "Expose Redis data types as close to native Ruby types as possible."
+  s.add_development_dependency "vcr"
+
+  s.description = "Provide simple interface to the Vognition REST API."
 end

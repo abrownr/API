@@ -24,12 +24,12 @@ describe Vognition do
 
     conn = Faraday.new(:url => url) do |faraday|
       faraday.request  :multipart               # form-encode POST params
-      faraday.response :logger                  # log requests to STDOUT
       faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
     end
 
-    response = conn.post path, request
-
-    response.status.must_equal 200
+    VCR.use_cassette("vognition_alarm") do
+      response = conn.post path, request
+      response.status.must_equal 200
+    end
   end
 end
